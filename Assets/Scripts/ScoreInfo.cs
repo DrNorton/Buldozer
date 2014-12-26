@@ -52,8 +52,10 @@ namespace Assets.Scripts
                 labelStyle.fontSize = 18;
 
                 labelStyle.normal.textColor = new Color32(0, 54, 186, 255);
-                GUI.Label(new Rect(70, 50, 250, 30), "You Completed Level 1", labelStyle);
-                GUI.Label(new Rect(90, 90, 250, 30), "Prepare for Level 2", labelStyle);
+                var levelIndex = _settingsProvider.GetCurrentLevelIndex();
+                var nextLevel = levelIndex+1;
+                GUI.Label(new Rect(70, 50, 250, 30), "You Completed Level "+levelIndex, labelStyle);
+                GUI.Label(new Rect(90, 90, 250, 30), "Prepare for Level " + nextLevel, labelStyle);
                 if (GUI.Button(new Rect(125, 130, 80, 30), "OK"))
                 {
                     _settingsProvider.LoadNextLevel();

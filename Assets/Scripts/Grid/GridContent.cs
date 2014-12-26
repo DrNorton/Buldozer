@@ -12,6 +12,7 @@ namespace Assets.Scripts.Grid
         Stone = 2, //Камень
         Target = 3, //Цель
         FencyElement = 4,// ограждение забора 2
-        NotWorkingElement = 5//пустая область, по которой можно ездить 3
+        NotWorkingElement = 5,//пустая область, по которой можно ездить 3
+        StoneWithTarget=6
     }
 }

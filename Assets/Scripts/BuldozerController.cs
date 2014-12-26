@@ -1,43 +1,66 @@
-﻿using Assets.Scripts.Grid;
+﻿using Assets.Scripts;
+using Assets.Scripts.Grid;
 using Assets.Scripts.Models;
 using UnityEngine;
 using System.Collections;
 
 public class BuldozerController : MonoBehaviour
 {
-    public Sprite Top;
-    public Sprite Left;
-    public Sprite Right;
-    public Sprite Bottom;
-	
-
     private BulldozerState _state;
     private Grid _grid;
-
+    private bool _canPinch = true;
     private CurrentCellPosition _cureCellPosition;
 
     public bool IsTouch = false;
+    private SwipeGestureRecognizer _swipeGesture;
+    private PinchGestureRecognizer _gesture;
 
     // Use this for initialization
 	void Start () {
 	    _state=BulldozerState.Top;
-        
+	  
 	}
 
     private void OnEnable()
     {
-        FingerGestures.OnFingerSwipe += FingerGestures_OnFingerSwipe;
+		_swipeGesture = this.GetComponent<SwipeGestureRecognizer>();
+		_swipeGesture.OnSwipe+=BuldozerController_OnSwipe;
+        _gesture = this.GetComponent<PinchGestureRecognizer>();
+        _gesture.OnPinchBegin+=_gesture_OnPinchBegin;
+        _gesture.OnPinchEnd+=_gesture_OnPinchEnd;
     }
+
+    private void _gesture_OnPinchEnd(PinchGestureRecognizer source)
+    {
+        IsTouch = true;
+    }
+
+    private void _gesture_OnPinchBegin(PinchGestureRecognizer source)
+    {
+        IsTouch = false;
+    }
+
+    private void BuldozerController_OnSwipe(SwipeGestureRecognizer source)
+    {
+
+        FingerGestures_OnFingerSwipe(0, new Vector2(), source.Direction, 0);
+    }
+
+    
+
+
 
     void OnDisable()
     {
         // unregister finger gesture events
-        FingerGestures.OnFingerSwipe -= FingerGestures_OnFingerSwipe;
-     
+		_swipeGesture.OnSwipe-=BuldozerController_OnSwipe;
+		
+       
     }
 
     private void FingerGestures_OnFingerSwipe(int fingerindex, Vector2 startpos, FingerGestures.SwipeDirection direction, float velocity)
     {
+		Debug.LogWarning(FingerGestures.Touches.Count);     
         if (IsTouch)
         {
             if (direction==FingerGestures.SwipeDirection.Up)
@@ -123,6 +146,13 @@ public class BuldozerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+	    if (Input.GetKeyDown(KeyCode.Escape))
+	    {
+            Application.LoadLevel("Menu"); 
+	    }
+          
+
+
 	    if (!IsTouch)
 	    {
 	        KeyInputHandler();

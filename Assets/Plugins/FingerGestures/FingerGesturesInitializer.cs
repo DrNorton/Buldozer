@@ -47,6 +47,10 @@ public class FingerGesturesInitializer : MonoBehaviour
 				prefab = iosGestures;
 #elif UNITY_ANDROID
 				prefab = androidGestures;
+
+#elif UNITY_WP8
+				prefab = androidGestures;
+
 #else
 				prefab = desktopGestures;
 #endif

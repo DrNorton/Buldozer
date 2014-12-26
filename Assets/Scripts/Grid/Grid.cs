@@ -76,16 +76,19 @@ namespace Assets.Scripts.Grid
           if (receive)
             {
                 _numberTarget = _numberTarget - 1;
+              _provider.Play(SoundType.StoneAtPoint);
                 Debug.LogWarning("Пойнт готов");
             }
             else
             {
                 _numberTarget = _numberTarget + 1;
+             
                 Debug.LogWarning("снять пойнт");
             }
 
           if (_numberTarget == 0)
           {
+              _provider.Play(SoundType.Win);
              _scorePopup.ShowNextLevel(_provider);
           }
 

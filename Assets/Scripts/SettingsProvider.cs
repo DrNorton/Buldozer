@@ -1,25 +1,63 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Assets.Scripts.Models;
 using UnityEngine;
 using System.Collections;
+using Random = UnityEngine.Random;
 
 public class SettingsProvider : MonoBehaviour {
-    private List<string> _levels;
+    private List<Level> _levels;
     private int _currentLevelIndex=0;
-    
+
+    public List<AudioClip> WinSounds;
+    public AudioClip SoundStoneAtTarget;
+
+    public List<Level> Levels
+    {
+        get { return _levels; }
+    }
+
     // Use this for initialization
 	void Start () {
         DontDestroyOnLoad(this);
-	    _levels = new List<string>();
+	    _levels = new List<Level>();
 	    LoadLevelsInArray();
 	}
 
     public string GetCurrentLevel()
     {
-        return _levels.ElementAt(_currentLevelIndex);
+        return Levels.ElementAt(_currentLevelIndex).LevelContent;
     }
 
-    
+    public void SetVolume(float volume)
+    {
+       var audio=this.GetComponent<AudioSource>();
+        audio.volume = volume;
+    }
+
+    public float GetVolume()
+    {
+        var audio = this.GetComponent<AudioSource>();
+        return audio.volume;
+    }
+
+    public void Play(SoundType type)
+    {
+        var audio = this.GetComponent<AudioSource>();
+        switch (type)
+        {
+                case SoundType.Win:
+                var index = Random.Range(0, WinSounds.Count-1);
+                audio.PlayOneShot(WinSounds.ElementAt(index));
+                break;
+
+                case  SoundType.StoneAtPoint:
+                audio.PlayOneShot(SoundStoneAtTarget);
+                break;
+        }
+    }
 
     public bool SetCurrentLevelIndex(int index)
     {
@@ -27,10 +65,33 @@ public class SettingsProvider : MonoBehaviour {
         return true;
     }
 
+    public int GetCurrentLevelIndex()
+    {
+        return _currentLevelIndex;
+    }
+
     public void LoadNextLevel()
     {
         IncrementLevel();
         Application.LoadLevel("Level1"); 
+    }
+
+    public void ChangeBackgroundMusic(bool isMusic)
+    {
+        var audio = this.GetComponent<AudioSource>();
+        if (!isMusic)
+        {
+			if(audio.isPlaying){
+            audio.Stop();
+			}
+        }
+        else
+        {
+			if(!audio.isPlaying){
+            audio.Play();
+			}
+        }
+       
     }
 
     public bool IncrementLevel()
@@ -47,33 +108,45 @@ public class SettingsProvider : MonoBehaviour {
 
     private void LoadLevelsInArray()
     {
-        var level1 = "555555555555" +
-        "555555555555" +
-            "555544455555" +
-            "555543444455" +
-            "554442023455" +
-            "554302144455" +
-            "554444245555" +
-            "555554345555" +
-            "555554445555" +
-            "555555555555";
+        var reader = Resources.Load("levels") as TextAsset;
+        var levelsText = reader.text;
+       var levelsContent=levelsText.Split(new char[] {';'});
+        int count = 0;
+        foreach (var s in levelsContent)
+        {
+            Levels.Add(new Level(){LevelContent = s,Number = count});
+            count++;
+        }
 
-        var level2 = "340000000000" +
-        "340000000000" +
-            "040000000040" +
-            "040020000040" +
-            "040200000040" +
-            "040000100040" +
-            "040000000040" +
-            "040000002040" +
-            "000200000043" +
-            "000000000043";
-        _levels.Add(level1);
-        _levels.Add(level2);
+        var level10 =
+         "5555555555555555" +
+         "5555444455555555" +
+         "5554400455555555" +
+         "5554120455555555" +
+         "5554420445555555" +
+         "5554402045555555" +
+         "5554320045555555" +
+         "5554336345555555" +
+         "5554444445555555" +
+         "5555555555555555" +
+             "5555555555555555";
+        Levels.Add(new Level() { LevelContent = level10, Number = count });
+        
     }
 
     // Update is called once per frame
 	void Update () {
 	
 	}
+
+    public void RefreshLevel()
+    {
+        Application.LoadLevel("Level1"); 
+    }
+}
+
+public enum SoundType
+{
+    Win,
+    StoneAtPoint
 }

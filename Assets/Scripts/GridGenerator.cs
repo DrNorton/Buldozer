@@ -13,8 +13,8 @@ public class GridGenerator:MonoBehaviour
 	public GameObject NotWorkingElement;
 	public GameObject BackgroundPlane;
 
-	private const int columnNumber = 12;
-	private const int rowNumber = 10;
+	private const int columnNumber = 16;
+	private const int rowNumber = 11;
 
 	private Grid _grid;
 	
@@ -59,6 +59,11 @@ public class GridGenerator:MonoBehaviour
 				case CellContent.NotWorkingElement:
 					CreatePrefab(NotWorkingElement,cell,0);
 					break;
+
+                case CellContent.StoneWithTarget:
+                    CreatePrefab(Target, cell, -1);
+                    CreateKamen(Stone, cell, 0);
+                    break;
 				}
 			}
 		}
