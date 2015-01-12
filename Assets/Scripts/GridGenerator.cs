@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Grid;
+using Assets.Scripts.Models;
 using UnityEngine;
 using System.Collections;
 
@@ -13,19 +14,32 @@ public class GridGenerator:MonoBehaviour
 	public GameObject NotWorkingElement;
 	public GameObject BackgroundPlane;
 
-	private const int columnNumber = 16;
-	private const int rowNumber = 11;
+	private  int columnNumber = 16;
+	private  int rowNumber = 11;
 
 	private Grid _grid;
 	
 	public void Start()
 	{
         var settingsProvider =(SettingsProvider)(GameObject.Find("SettingsObject").GetComponent("SettingsProvider"));
-	    var content = settingsProvider.GetCurrentLevel();
-		_grid = new Grid(content,columnNumber,rowNumber,this.GetComponent<ScoreInfo>(),settingsProvider);
+	    var level = settingsProvider.GetCurrentLevel();
+	    GetColumnAndRowsNumber(level);
+		_grid = new Grid(level.LevelContent,columnNumber,rowNumber,this.GetComponent<ScoreInfo>(),settingsProvider);
+        BackgroundPlane.transform.localScale = new Vector3(columnNumber, rowNumber, 1);
 		GenerateContentPrefabsForGridContent ();
 	}
 
+    private void GetColumnAndRowsNumber(Level level)
+    {
+        rowNumber = level.ColumnRows;
+        columnNumber = level.ColumnNumbers;
+        if ((rowNumber%2) == 0)
+        {
+            BackgroundPlane.transform.position = new Vector3(-0.5f,0.5f,2);
+            Debug.LogWarning("log");
+        }
+
+    }
    
 	
 	public void GenerateContentPrefabsForGridContent()
