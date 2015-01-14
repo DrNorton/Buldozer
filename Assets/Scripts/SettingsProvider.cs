@@ -20,6 +20,11 @@ public class SettingsProvider : MonoBehaviour {
         get { return _levels; }
     }
 
+    public bool IsMusic
+    {
+        get { return _settingsStore.IsMusic == 1; }
+        set { _settingsStore.IsMusic = value ? 1 : 0; }
+    }
     public int GetShowingLevelsNumber()
     {
         return _settingsStore.LevelNumber;
@@ -32,6 +37,8 @@ public class SettingsProvider : MonoBehaviour {
 	    _levels = new List<Level>();
         _settingsStore=new Settings();
 	    _currentLevelIndex = _settingsStore.LevelNumber;
+        var audio = this.GetComponent<AudioSource>();
+	    audio.volume = _settingsStore.Volume;
 	    LoadLevelsInArray();
 	}
 
@@ -44,6 +51,18 @@ public class SettingsProvider : MonoBehaviour {
     {
        var audio=this.GetComponent<AudioSource>();
         audio.volume = volume;
+    }
+
+    public void SetVolumeProgress()
+    {
+
+        if (UIProgressBar.current != null)
+        {
+            var audio = this.GetComponent<AudioSource>();
+            audio.volume = UIProgressBar.current.value;
+            _settingsStore.Volume = audio.volume;
+        }
+            
     }
 
     public float GetVolume()
@@ -115,6 +134,14 @@ public class SettingsProvider : MonoBehaviour {
 			}
         }
        
+    }
+
+    public void EnableOrDisableBackground()
+    {
+        if (UIToggle.current != null)
+        {
+            ChangeBackgroundMusic(UIToggle.current.value);
+        }
     }
 
     public bool IncrementLevel()
