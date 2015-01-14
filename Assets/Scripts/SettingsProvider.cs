@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 public class SettingsProvider : MonoBehaviour {
     private List<Level> _levels;
     private int _currentLevelIndex=0;
+    private Settings _settingsStore;
 
     public List<AudioClip> WinSounds;
     public AudioClip SoundStoneAtTarget;
@@ -19,10 +20,18 @@ public class SettingsProvider : MonoBehaviour {
         get { return _levels; }
     }
 
+    public int GetShowingLevelsNumber()
+    {
+        return _settingsStore.LevelNumber;
+    }
+
+
     // Use this for initialization
-	void Start () {
+	void OnEnable () {
         DontDestroyOnLoad(this);
 	    _levels = new List<Level>();
+        _settingsStore=new Settings();
+	    _currentLevelIndex = _settingsStore.LevelNumber;
 	    LoadLevelsInArray();
 	}
 
@@ -73,7 +82,21 @@ public class SettingsProvider : MonoBehaviour {
     public void LoadNextLevel()
     {
         IncrementLevel();
-        Application.LoadLevel("Level1"); 
+        LoadLevel();
+    }
+
+	public void Exit(){
+		Application.Quit();
+	}
+
+    public void LoadLevel()
+    {
+        if (_settingsStore.LevelNumber < _currentLevelIndex)
+        {
+            _settingsStore.LevelNumber = _currentLevelIndex;
+        }
+       
+        Application.LoadLevel("Level1");
     }
 
     public void ChangeBackgroundMusic(bool isMusic)
