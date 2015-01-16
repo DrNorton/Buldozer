@@ -30,16 +30,40 @@ public class SettingsProvider : MonoBehaviour {
         return _settingsStore.LevelNumber;
     }
 
+    private static SettingsProvider instance;
+ 
+// EVENTS
+void Awake ()
+{
+    if (instance)
+    {
+        Destroy (gameObject);
+    }
+    else
+    {
+        instance = this;
+        DontDestroyOnLoad (gameObject);
+    }
+}
 
     // Use this for initialization
-	void OnEnable () {
-        DontDestroyOnLoad(this);
-	    _levels = new List<Level>();
-        _settingsStore=new Settings();
-	    _currentLevelIndex = _settingsStore.LevelNumber;
-        var audio = this.GetComponent<AudioSource>();
-	    audio.volume = _settingsStore.Volume;
-	    LoadLevelsInArray();
+	void OnEnable ()
+	{
+	    var settingsObject = GameObject.Find("SettingsObject");
+	    if (settingsObject != null)
+	    {
+	       
+	        _levels = new List<Level>();
+	        _settingsStore = new Settings();
+	        _currentLevelIndex = _settingsStore.LevelNumber;
+	        var audio = this.GetComponent<AudioSource>();
+	        audio.volume = _settingsStore.Volume;
+	        LoadLevelsInArray();
+	    }
+	    else
+	    {
+	        
+	    }
 	}
 
     public Level GetCurrentLevel()
@@ -366,6 +390,11 @@ public class SettingsProvider : MonoBehaviour {
     public void RefreshLevel()
     {
         Application.LoadLevel("Level1"); 
+    }
+
+    public void LoadMenu()
+    {
+        Application.LoadLevel("Menu"); 
     }
 }
 
