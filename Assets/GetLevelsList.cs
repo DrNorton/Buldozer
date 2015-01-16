@@ -23,7 +23,6 @@ public class GetLevelsList : MonoBehaviour {
 		        var onClickEvent = new EventDelegate(this, "ButtonClick");
 		        var param = onClickEvent.parameters[0];
 		        param.obj = label;
-
 		        button.onClick.Add(onClickEvent);
 		        label.text = level.Number.ToString();
 		        levelItem.transform.SetParent(this.transform, false);

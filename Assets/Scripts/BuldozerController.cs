@@ -12,6 +12,7 @@ public class BuldozerController : MonoBehaviour
     private CurrentCellPosition _cureCellPosition;
 
     public bool IsTouch = false;
+   
     private SwipeGestureRecognizer _swipeGesture;
     private PinchGestureRecognizer _gesture;
 
@@ -146,10 +147,7 @@ public class BuldozerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    if (Input.GetKeyDown(KeyCode.Escape))
-	    {
-            Application.LoadLevel("Menu"); 
-	    }
+	    
           
 
 

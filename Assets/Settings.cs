@@ -13,7 +13,7 @@ using UnityEngine;
         {
             if (!PlayerPrefs.HasKey("levelNumber"))
             {
-                PlayerPrefs.SetInt("levelNumber", 20);
+                PlayerPrefs.SetInt("levelNumber", 0);
             }
             return PlayerPrefs.GetInt("levelNumber");
         }

@@ -13,6 +13,7 @@ public class GridGenerator:MonoBehaviour
 	public GameObject FencyElement;
 	public GameObject NotWorkingElement;
 	public GameObject BackgroundPlane;
+    public GameObject SettingsMenu;
 
 	private  int columnNumber = 16;
 	private  int rowNumber = 11;
@@ -28,6 +29,15 @@ public class GridGenerator:MonoBehaviour
         BackgroundPlane.transform.localScale = new Vector3(columnNumber, rowNumber, 1);
 		GenerateContentPrefabsForGridContent ();
 	}
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            var menu = Instantiate(SettingsMenu, new Vector3(0,0,0), new Quaternion(0, 0, 0, 0));
+        }
+        
+    }
 
     private void GetColumnAndRowsNumber(Level level)
     {
@@ -102,6 +112,8 @@ public class GridGenerator:MonoBehaviour
 		buldozerController.SetGrid (_grid);
         buldozerController.SetStartCell(cell);
     }
+
+
 }
 
 
