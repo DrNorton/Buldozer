@@ -55,6 +55,7 @@ void Awake ()
 	       
 	        _levels = new List<Level>();
 	        _settingsStore = new Settings();
+
 	        _currentLevelIndex = _settingsStore.LevelNumber;
 	        var audio = this.GetComponent<AudioSource>();
 	        audio.volume = _settingsStore.Volume;
@@ -170,6 +171,10 @@ void Awake ()
 
     public bool IncrementLevel()
     {
+        if (_currentLevelIndex > Levels.Count-1)
+        {
+            Application.LoadLevel("End");
+        }
         _currentLevelIndex++;
         return true;
     }
@@ -395,6 +400,11 @@ void Awake ()
     public void LoadMenu()
     {
         Application.LoadLevel("Menu"); 
+    }
+
+    public void ResumeGame()
+    {
+        Application.LoadLevel("Level1"); 
     }
 }
 

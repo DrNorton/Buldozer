@@ -523,8 +523,32 @@ public class UIScrollView : MonoBehaviour
 				contentMax = Mathf.Clamp01(contentMax / contentSize);
 
 				contentPadding = contentMin + contentMax;
-				slider.value = inverted ? ((contentPadding > 0.001f) ? 1f - contentMin / contentPadding : 0f) :
-					((contentPadding > 0.001f) ? contentMin / contentPadding : 1f);
+                //slider.value = inverted ? ((contentPadding > 0.001f) ? 1f - contentMin / contentPadding : 0f) :
+                //    ((contentPadding > 0.001f) ? contentMin / contentPadding : 1f);
+
+			    if (inverted)
+			    {
+			        if (contentPadding > 0.001f)
+			        {
+			            slider.value = 1f;
+			        }
+			        else
+			        {
+			            slider.value = 0f;
+			        }
+			    }
+			    else
+			    {
+			        if (contentPadding > 0.001f)
+			        {
+			            slider.value = contentMin/contentPadding;
+			        }
+			        else
+			        {
+                        slider.value = 0f;
+			        }
+			    }
+			   
 			}
 			else
 			{

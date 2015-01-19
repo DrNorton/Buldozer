@@ -44,4 +44,9 @@ public class LevelEventHandler : MonoBehaviour {
     {
         _settingsProvider.LoadMenu();
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
