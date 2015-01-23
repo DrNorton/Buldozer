@@ -5,6 +5,7 @@ public class LevelEventHandler : MonoBehaviour {
     private SettingsProvider _settingsProvider;
 
     public GameObject SettingsMenu;
+    public GameObject RateMenu;
     private WINRTInterfaceHandler _winrtHandler;
     // Use this for initialization
 	void Start () {
@@ -53,6 +54,16 @@ public class LevelEventHandler : MonoBehaviour {
     {
         _winrtHandler.SendRequest(1, "showBanner", requestCallback);
         SettingsMenu.SetActive(true);
+    }
+
+    public void ShowRateMenu()
+    {
+        RateMenu.SetActive(true);
+    }
+
+    public void UnShowRateMenu()
+    {
+        RateMenu.SetActive(false);
     }
 
     public void Replay()
