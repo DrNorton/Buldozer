@@ -58,6 +58,7 @@ public class LevelEventHandler : MonoBehaviour {
 
     public void ShowRateMenu()
     {
+        
         RateMenu.SetActive(true);
     }
 
@@ -69,12 +70,13 @@ public class LevelEventHandler : MonoBehaviour {
     public void Replay()
     {
         _settingsProvider.RefreshLevel();
+        UnshowMenu();
         SettingsMenu.SetActive(true);
     }
 
     public void GoToMenu()
     {
-
+        UnshowMenu();
         _settingsProvider.LoadMenu();
     }
 
