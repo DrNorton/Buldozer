@@ -39,7 +39,7 @@ public class GetLevelsList : MonoBehaviour {
         _settingsProvider.LoadLevel();
         Debug.LogWarning(obj.text);
     }
-
+    
 
     // Update is called once per frame
 	void Update () {

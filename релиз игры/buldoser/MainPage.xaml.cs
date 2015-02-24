@@ -16,7 +16,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
 using Windows.Foundation;
 using Windows.Devices.Geolocation;
-
+using Microsoft.Phone.Tasks;
 using UnityApp = UnityPlayer.UnityApp;
 using UnityBridge = WinRTBridge.WinRTBridge;
 
@@ -107,7 +107,17 @@ namespace buldoser
                 case "unshowBanner":
                     StopAdversting();
                     break;
+
+                case "rate":
+	                ShowRate();
+                    break;
 	        }
+	    }
+
+	    private void ShowRate()
+	    {
+            var marketplaceReviewTask = new MarketplaceReviewTask();
+            marketplaceReviewTask.Show();
 	    }
 
 	    private void StartAdversting()

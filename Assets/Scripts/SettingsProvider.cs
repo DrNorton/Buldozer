@@ -11,10 +11,11 @@ public class SettingsProvider : MonoBehaviour {
     private List<Level> _levels;
     private int _currentLevelIndex=0;
     private Settings _settingsStore;
+   
 
     public List<AudioClip> WinSounds;
     public AudioClip SoundStoneAtTarget;
-
+    public GameObject RateMenu;
     public List<Level> Levels
     {
         get { return _levels; }
@@ -125,22 +126,34 @@ void Awake ()
 
     public void LoadNextLevel()
     {
+ 
         if (IncrementLevel()) LoadLevel();
-        
+    
+    }
+
+    public void ShowRateMenu()
+    {
+        var levelItem = Instantiate(RateMenu, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0)) as GameObject;
+        levelItem.SetActive(true);
+    }
+
+    public void UnShowRateMenu()
+    {
+        RateMenu.SetActive(false);
     }
 
 	public void Exit(){
 		Application.Quit();
 	}
 
-    public void LoadLevel()
+    public  void LoadLevel()
     {
         if (_settingsStore.LevelNumber < _currentLevelIndex)
         {
             _settingsStore.LevelNumber = _currentLevelIndex;
         }
        
-        Application.LoadLevelAsync("Level1");
+        Application.LoadLevel("Level1");
     }
 
     public void ChangeBackgroundMusic(bool isMusic)
@@ -180,6 +193,11 @@ void Awake ()
         return true;
     }
 
+    private void OnLevelWasLoaded(int level)
+    {
+        if(_currentLevelIndex==6)
+        ShowRateMenu();
+    }
 
 
     public bool DeincrementLevel()
