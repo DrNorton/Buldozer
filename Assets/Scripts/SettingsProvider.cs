@@ -9,9 +9,14 @@ using Random = UnityEngine.Random;
 
 public class SettingsProvider : MonoBehaviour {
     private List<Level> _levels;
-    private int _currentLevelIndex=0;
+    public int _currentLevelIndex=0;
     private Settings _settingsStore;
-   
+
+    AsyncOperation async;
+
+    public GameObject LoadingScreen;
+
+    public GameObject ProgressBar;
 
     public List<AudioClip> WinSounds;
     public AudioClip SoundStoneAtTarget;
@@ -32,7 +37,8 @@ public class SettingsProvider : MonoBehaviour {
     }
 
     private static SettingsProvider instance;
- 
+    private UISlider _slider;
+
 // EVENTS
 void Awake ()
 {
@@ -51,6 +57,8 @@ void Awake ()
 	void OnEnable ()
 	{
 	    var settingsObject = GameObject.Find("SettingsObject");
+	    _slider=ProgressBar.GetComponent<UISlider>();
+        
 	    if (settingsObject != null)
 	    {
 	       
@@ -60,6 +68,10 @@ void Awake ()
 	        _currentLevelIndex = _settingsStore.LevelNumber;
 	        var audio = this.GetComponent<AudioSource>();
 	        audio.volume = _settingsStore.Volume;
+	        if (_settingsStore.IsMusic == 0)
+	        {
+	            audio.Stop();
+	        }
 	        LoadLevelsInArray();
 	    }
 	    else
@@ -148,13 +160,26 @@ void Awake ()
 
     public  void LoadLevel()
     {
+      
+
         if (_settingsStore.LevelNumber < _currentLevelIndex)
         {
             _settingsStore.LevelNumber = _currentLevelIndex;
         }
+
+        if (_currentLevelIndex >= _levels.Count)
+        {
+            _currentLevelIndex--;
+        }
        
-        Application.LoadLevel("Level1");
+        LoadingScreen.SetActive(true);
+        StartNow();
+
     }
+
+   
+
+   
 
     public void ChangeBackgroundMusic(bool isMusic)
     {
@@ -162,13 +187,15 @@ void Awake ()
         if (!isMusic)
         {
 			if(audio.isPlaying){
-            audio.Stop();
+             audio.Stop();
+			 _settingsStore.IsMusic = 0;
 			}
         }
         else
         {
 			if(!audio.isPlaying){
             audio.Play();
+            _settingsStore.IsMusic = 1;
 			}
         }
        
@@ -240,8 +267,44 @@ void Awake ()
 
     // Update is called once per frame
 	void Update () {
-	
+        if (async != null && async.isDone)
+        {
+           
+        }
 	}
+
+    private void StartNow()
+    {
+        AsyncOperation async = Application.LoadLevelAsync("Level1");
+
+        // Set this false to wait changing the scene
+        async.allowSceneActivation = false;
+
+        StartCoroutine(LoadLevelProgress(async));
+    }
+
+
+    IEnumerator LoadLevelProgress(AsyncOperation async)
+    {
+        while (!async.isDone)
+        {
+            _slider.value = async.progress;
+            if (async.progress >= 0.9f)
+            {
+                // Almost done.
+                break;
+            }
+ 
+            Debug.Log("Loading " + async.progress);
+            yield return null;
+        }
+
+        Debug.Log("Loading complete");
+
+        // This is where I'm actually changing the scene
+        async.allowSceneActivation = true;
+    }
+ 
 
     public void RefreshLevel()
     {
@@ -255,7 +318,7 @@ void Awake ()
 
     public void ResumeGame()
     {
-        Application.LoadLevel("Level1"); 
+      LoadLevel();
     }
 }
 

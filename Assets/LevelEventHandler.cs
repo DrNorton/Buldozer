@@ -5,14 +5,30 @@ public class LevelEventHandler : MonoBehaviour {
     private SettingsProvider _settingsProvider;
 
     public GameObject SettingsMenu;
+
+    public GameObject HowToPlay;
    
     private WINRTInterfaceHandler _winrtHandler;
     // Use this for initialization
 	void Start () {
         _settingsProvider = (SettingsProvider)(GameObject.Find("SettingsObject").GetComponent("SettingsProvider"));
+	    if (_settingsProvider._currentLevelIndex == 0)
+	    {
+	        ShowHowToPlayRequest();
+	    }
         _winrtHandler = (WINRTInterfaceHandler)(GameObject.Find("SettingsObject").GetComponent("WINRTInterfaceHandler"));
 	}
 
+    private void ShowHowToPlayRequest()
+    {
+        HowToPlay.SetActive(true);
+    }
+
+    public void HowToPlayClose()
+    {
+        HowToPlay.SetActive(false);
+    }
+    
     public void SetVolume()
     {
         _settingsProvider.SetVolumeProgress();
@@ -32,6 +48,13 @@ public class LevelEventHandler : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (HowToPlay.activeSelf)
+            {
+                HowToPlayClose();
+                return;
+                
+            }
+
             if (!SettingsMenu.activeSelf)
             {
                 ShowMenu();
@@ -40,6 +63,8 @@ public class LevelEventHandler : MonoBehaviour {
             {
                 UnshowMenu();
             }
+
+           
         }
     }
 
