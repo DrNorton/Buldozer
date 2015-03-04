@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Levels;
+using UnityEngine;
 using System.Collections;
 
 public class LevelEventHandler : MonoBehaviour {
@@ -9,14 +10,19 @@ public class LevelEventHandler : MonoBehaviour {
     public GameObject HowToPlay;
    
     private WINRTInterfaceHandler _winrtHandler;
+    private LevelManager _levelManager;
+
     // Use this for initialization
-	void Start () {
-        _settingsProvider = (SettingsProvider)(GameObject.Find("SettingsObject").GetComponent("SettingsProvider"));
-	    if (_settingsProvider._currentLevelIndex == 0)
+	void Start ()
+	{
+        var settingsObject = GameObject.Find("Managers");
+        _settingsProvider = (SettingsProvider)(settingsObject.GetComponent("SettingsProvider"));
+	    _levelManager = (settingsObject.GetComponent<LevelManager>());
+        if (_levelManager.GetCurrentLevelIndex() == 0)
 	    {
 	        ShowHowToPlayRequest();
 	    }
-        _winrtHandler = (WINRTInterfaceHandler)(GameObject.Find("SettingsObject").GetComponent("WINRTInterfaceHandler"));
+        _winrtHandler = (WINRTInterfaceHandler)(GameObject.Find("Managers").GetComponent("WINRTInterfaceHandler"));
 	}
 
     private void ShowHowToPlayRequest()
@@ -84,9 +90,9 @@ public class LevelEventHandler : MonoBehaviour {
 
     public void Replay()
     {
-        _settingsProvider.RefreshLevel();
+        _levelManager.RefreshLevel();
         UnshowMenu();
-        SettingsMenu.SetActive(true);
+       // SettingsMenu.SetActive(true);
     }
 
     public void GoToMenu()
@@ -100,8 +106,5 @@ public class LevelEventHandler : MonoBehaviour {
         Debug.LogWarning("test");
     }
 
-    public void Exit()
-    {
-        Application.Quit();
-    }
+   
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Levels;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
@@ -7,13 +8,18 @@ public class GetLevelsList : MonoBehaviour {
 
 	public GameObject levelPrefab;
 	private SettingsProvider _settingsProvider;
+    private LevelManager _levelManager;
+    public GameObject LoadingScreen;
 
-	// Use this for initialization
+    // Use this for initialization
 	void Start () {
-		_settingsProvider = (SettingsProvider)(GameObject.Find("SettingsObject").GetComponent("SettingsProvider"));
+        var settingsObject = GameObject.Find("Managers");
+        _settingsProvider = (SettingsProvider)(settingsObject.GetComponent("SettingsProvider"));
+        _levelManager = (settingsObject.GetComponent<LevelManager>());
 	    var levelNumbers = _settingsProvider.GetShowingLevelsNumber();
+	
 		var x = 0;
-		foreach (var level in Enumerable.Reverse(_settingsProvider.Levels))
+        foreach (var level in Enumerable.Reverse(_levelManager.Levels))
 		{
 		    if (level.Number <= levelNumbers)
 		    {
@@ -26,8 +32,6 @@ public class GetLevelsList : MonoBehaviour {
 		        button.onClick.Add(onClickEvent);
 		        label.text = level.Number.ToString();
 		        levelItem.transform.SetParent(this.transform, false);
-
-		        //gameObject.transform.position=new Vector3(x,0,0);
 		        x += 100;
 		    }
 		}
@@ -35,8 +39,8 @@ public class GetLevelsList : MonoBehaviour {
 
     private void ButtonClick(UILabel obj)
     {
-        _settingsProvider.SetCurrentLevelIndex(int.Parse(obj.text));
-        _settingsProvider.LoadLevel();
+        _levelManager.SetCurrentLevelIndex(int.Parse(obj.text));
+        _levelManager.LoadLevel();
         Debug.LogWarning(obj.text);
     }
     

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Levels;
 using UnityEngine;
 
 namespace Assets.Scripts.Grid
@@ -12,16 +13,18 @@ namespace Assets.Scripts.Grid
         private int _rowNumber = 10;
         private readonly ScoreInfo _scorePopup;
         private readonly SettingsProvider _provider;
+        private readonly LevelManager _levelManager;
 
         private GridCell[,] _grid;
         private int _numberTarget;
 
-        public Grid(string content, int columnNumber, int rowNumber,ScoreInfo scorePopup,SettingsProvider provider)
+        public Grid(string content, int columnNumber, int rowNumber,ScoreInfo scorePopup,SettingsProvider provider,LevelManager levelManager)
         {
             _columnNumber = columnNumber;
             _rowNumber = rowNumber;
             _scorePopup = scorePopup;
             _provider = provider;
+            _levelManager = levelManager;
             _grid = new GridCell[ColumnNumber, RowNumber];
             GenerateCellPositions();
             GenerateContent(content);
@@ -89,7 +92,7 @@ namespace Assets.Scripts.Grid
           if (_numberTarget == 0)
           {
               _provider.Play(SoundType.Win);
-             _scorePopup.ShowNextLevel(_provider);
+             _scorePopup.ShowNextLevel(_provider,_levelManager);
           }
 
           Debug.LogWarning("Всего пойнтов "+_numberTarget);
