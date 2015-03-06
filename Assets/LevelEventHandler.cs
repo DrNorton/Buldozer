@@ -1,4 +1,7 @@
-﻿using Assets.Scripts.Levels;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Levels;
+
 using UnityEngine;
 using System.Collections;
 
@@ -8,6 +11,8 @@ public class LevelEventHandler : MonoBehaviour {
     public GameObject SettingsMenu;
 
     public GameObject HowToPlay;
+
+    public List<GameObject> Panels;
    
     private WINRTInterfaceHandler _winrtHandler;
     private LevelManager _levelManager;
@@ -67,11 +72,35 @@ public class LevelEventHandler : MonoBehaviour {
             }
             else
             {
-                UnshowMenu();
+                var currentWindow = GetCurrentWindow();
+                if (currentWindow.name == "Main_Panel")
+                {
+                    UnshowMenu();
+                }
+                else
+                {
+                    var buttons = currentWindow.GetComponentsInChildren<UIButton>();
+                    var back = buttons.FirstOrDefault(x => x.name == "Button - Back");
+                    back.SimulateClick(); 
+                }
+                
             }
 
            
         }
+    }
+
+    private GameObject GetCurrentWindow()
+    {
+        foreach (var panel in Panels)
+        {
+            if (panel.transform.position.x == 0 && panel.activeSelf)
+            {
+                //значит эта панель активна
+                return panel;
+            }
+        }
+        return null;
     }
 
     private void UnshowMenu()

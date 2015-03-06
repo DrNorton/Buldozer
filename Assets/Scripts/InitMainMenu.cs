@@ -53,7 +53,7 @@ public class InitMainMenu:MonoBehaviour
             {
                 var buttons = currentWindow.GetComponentsInChildren<UIButton>();
                 var back=buttons.FirstOrDefault(x => x.name == "Button - Back");
-                back.SendMessage("OnClick");
+                back.SimulateClick();
                 
             }
         }

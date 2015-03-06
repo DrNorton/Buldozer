@@ -119,7 +119,7 @@ namespace Assets.Scripts.Models
             {
                 case BulldozerState.Bottom:
                     var gridCell = NeighbohoodCell(cell2.SummBottomCell());
-                    if (gridCell.GetContent() == CellContent.FencyElement ||gridCell.GetContent()==CellContent.Stone)
+                    if (gridCell.GetContent() == CellContent.FencyElement || gridCell.GetContent() == CellContent.Stone || gridCell.GetContent() == CellContent.NotWorkingElement)
                     {
                         return false;
                     }
@@ -128,7 +128,7 @@ namespace Assets.Scripts.Models
 
                 case BulldozerState.Left:
                     var gridCell2 = NeighbohoodCell(cell2.SummLeftCell());
-                    if (gridCell2.GetContent() == CellContent.FencyElement || gridCell2.GetContent() == CellContent.Stone)
+                    if (gridCell2.GetContent() == CellContent.FencyElement || gridCell2.GetContent() == CellContent.Stone || gridCell2.GetContent() == CellContent.NotWorkingElement)
                     {
                         return false;
                     }
@@ -136,7 +136,7 @@ namespace Assets.Scripts.Models
 
                 case BulldozerState.Right:
                     var gridCell3 = NeighbohoodCell(cell2.SummRightCell());
-                    if (gridCell3.GetContent() == CellContent.FencyElement || gridCell3.GetContent() == CellContent.Stone)
+                    if (gridCell3.GetContent() == CellContent.FencyElement || gridCell3.GetContent() == CellContent.Stone || gridCell3.GetContent() == CellContent.NotWorkingElement)
                     {
                         return false;
                     }
@@ -144,7 +144,7 @@ namespace Assets.Scripts.Models
 
                 case BulldozerState.Top:
                     var gridCell4 = NeighbohoodCell(cell2.SummTopCell());
-                    if (gridCell4.GetContent() == CellContent.FencyElement || gridCell4.GetContent() == CellContent.Stone)
+                    if (gridCell4.GetContent() == CellContent.FencyElement || gridCell4.GetContent() == CellContent.Stone || gridCell4.GetContent() == CellContent.NotWorkingElement)
                     {
                         return false;
                     }
@@ -245,7 +245,7 @@ namespace Assets.Scripts.Models
 
         private bool CheckContent(GridCell cell, BulldozerState state)
         {
-            if (cell.GetContent() == CellContent.FencyElement)
+            if (cell.GetContent() == CellContent.FencyElement ||cell.GetContent()==CellContent.NotWorkingElement)
             {
                 return false;
             }

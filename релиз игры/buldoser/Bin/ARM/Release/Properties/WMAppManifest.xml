@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{F5125891-48D5-43BD-BB29-C1AEE24982F7}" Title="buldoser" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="DefaultCompany" Description="" Publisher="DefaultCompany" PublisherID="{36e0404a-2921-4b73-8632-3bf364496337}">
+  <App xmlns="" ProductID="{F5125891-48D5-43BD-BB29-C1AEE24982F7}" Title="Bulldozer Classic" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="DefaultCompany" Description="" Publisher="DefaultCompany" PublisherID="{36e0404a-2921-4b73-8632-3bf364496337}">
     <IconPath IsRelative="true" IsResource="false">icon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />

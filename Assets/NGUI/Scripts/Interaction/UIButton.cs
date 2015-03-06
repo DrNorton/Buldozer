@@ -79,10 +79,14 @@ public class UIButton : UIButtonColor
 	[System.NonSerialized] string mNormalSprite;
 	[System.NonSerialized] UnityEngine.Sprite mNormalSprite2D;
 
-	/// <summary>
-	/// Whether the button should be enabled.
-	/// </summary>
-
+    /// <summary>
+    /// Whether the button should be enabled.
+    /// </summary>
+    public void SimulateClick()
+    {
+        UICamera.currentTouchID = -1;
+        SendMessage("OnClick");
+    }
 	public override bool isEnabled
 	{
 		get
