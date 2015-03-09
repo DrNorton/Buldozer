@@ -5,7 +5,7 @@ public class OnProgressBarLoaded : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        var settingsProvider = (SettingsProvider)(GameObject.Find("SettingsObject").GetComponent("SettingsProvider"));
+        var settingsProvider = (SettingsProvider)(GameObject.Find("Managers").GetComponent("SettingsProvider"));
 	    this.GetComponent<UISlider>().value = settingsProvider.GetVolume();
 	}
 	

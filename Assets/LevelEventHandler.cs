@@ -1,18 +1,45 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Levels;
+
+using UnityEngine;
 using System.Collections;
 
 public class LevelEventHandler : MonoBehaviour {
     private SettingsProvider _settingsProvider;
 
     public GameObject SettingsMenu;
-    public GameObject RateMenu;
+
+    public GameObject HowToPlay;
+
+    public List<GameObject> Panels;
+   
     private WINRTInterfaceHandler _winrtHandler;
+    private LevelManager _levelManager;
+
     // Use this for initialization
-	void Start () {
-        _settingsProvider = (SettingsProvider)(GameObject.Find("SettingsObject").GetComponent("SettingsProvider"));
-        _winrtHandler = (WINRTInterfaceHandler)(GameObject.Find("SettingsObject").GetComponent("WINRTInterfaceHandler"));
+	void Start ()
+	{
+        var settingsObject = GameObject.Find("Managers");
+        _settingsProvider = (SettingsProvider)(settingsObject.GetComponent("SettingsProvider"));
+	    _levelManager = (settingsObject.GetComponent<LevelManager>());
+        if (_levelManager.GetCurrentLevelIndex() == 0)
+	    {
+	        ShowHowToPlayRequest();
+	    }
+        _winrtHandler = (WINRTInterfaceHandler)(GameObject.Find("Managers").GetComponent("WINRTInterfaceHandler"));
 	}
 
+    private void ShowHowToPlayRequest()
+    {
+        HowToPlay.SetActive(true);
+    }
+
+    public void HowToPlayClose()
+    {
+        HowToPlay.SetActive(false);
+    }
+    
     public void SetVolume()
     {
         _settingsProvider.SetVolumeProgress();
@@ -32,16 +59,48 @@ public class LevelEventHandler : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (HowToPlay.activeSelf)
+            {
+                HowToPlayClose();
+                return;
+                
+            }
+
             if (!SettingsMenu.activeSelf)
             {
                 ShowMenu();
             }
             else
             {
-                UnshowMenu();
+                var currentWindow = GetCurrentWindow();
+                if (currentWindow.name == "Main_Panel")
+                {
+                    UnshowMenu();
+                }
+                else
+                {
+                    var buttons = currentWindow.GetComponentsInChildren<UIButton>();
+                    var back = buttons.FirstOrDefault(x => x.name == "Button - Back");
+                    back.SimulateClick(); 
+                }
+                
+            }
+
+           
+        }
+    }
+
+    private GameObject GetCurrentWindow()
+    {
+        foreach (var panel in Panels)
+        {
+            if (panel.transform.position.x == 0 && panel.activeSelf)
+            {
+                //значит эта панель активна
+                return panel;
             }
         }
-
+        return null;
     }
 
     private void UnshowMenu()
@@ -56,22 +115,13 @@ public class LevelEventHandler : MonoBehaviour {
         SettingsMenu.SetActive(true);
     }
 
-    public void ShowRateMenu()
-    {
-        
-        RateMenu.SetActive(true);
-    }
-
-    public void UnShowRateMenu()
-    {
-        RateMenu.SetActive(false);
-    }
+  
 
     public void Replay()
     {
-        _settingsProvider.RefreshLevel();
+        _levelManager.RefreshLevel();
         UnshowMenu();
-        SettingsMenu.SetActive(true);
+       // SettingsMenu.SetActive(true);
     }
 
     public void GoToMenu()
@@ -85,8 +135,5 @@ public class LevelEventHandler : MonoBehaviour {
         Debug.LogWarning("test");
     }
 
-    public void Exit()
-    {
-        Application.Quit();
-    }
+   
 }

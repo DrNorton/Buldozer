@@ -4,8 +4,8 @@ using System.Collections;
 public class OnMusicToggleLoad : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
-        var settingsProvider = (SettingsProvider)(GameObject.Find("SettingsObject").GetComponent("SettingsProvider"));
+	void Awake () {
+        var settingsProvider = (SettingsProvider)(GameObject.Find("Managers").GetComponent("SettingsProvider"));
 		var toggle = this.GetComponent<UIToggle> ();
 	    toggle.value = settingsProvider.IsMusic;
 	}
