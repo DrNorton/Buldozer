@@ -39,8 +39,6 @@ namespace Assets.Scripts.Levels
         {
             _settingsStore = new Settings();
             _currentLevelIndex = _settingsStore.LevelNumber;
-            
-          
             _levels = new List<Level>();
             LoadLevelsInArray();
         }
@@ -106,6 +104,7 @@ namespace Assets.Scripts.Levels
                 return false;
             }
             _currentLevelIndex++;
+            _settingsStore.LevelNumber = _currentLevelIndex;
             return true;
         }
 

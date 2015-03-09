@@ -55,6 +55,7 @@ public class GridGenerator:MonoBehaviour
 
         _backgroundPlane.transform.localScale = new Vector3(columnNumber, rowNumber, 1);
         GenerateContentPrefabsForGridContent();
+        
     }
 
     private void DeleteAllDynamic()
