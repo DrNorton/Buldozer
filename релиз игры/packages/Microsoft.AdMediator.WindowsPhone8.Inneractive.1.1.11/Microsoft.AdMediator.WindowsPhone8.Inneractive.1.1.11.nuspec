@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.AdMediator.WindowsPhone8.Inneractive</id>
+    <version>1.1.11</version>
+    <title>Ad Mediator Inneractive Ad Adapter</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://go.microsoft.com/fwlink/p/?linkid=248155</licenseUrl>
+    <projectUrl>http://go.microsoft.com/fwlink/?LinkId=510792</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>The ad mediator aims to maximize your ad monetization by making sure you are always showing a live ad. This extension enables you to plug and play 3rd party ad network solutions into your project. When submitted in Dev Center you will be able to create the mediation logic to be used for your app.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>MicrosoftAdMediator</tags>
+  </metadata>
+</package>

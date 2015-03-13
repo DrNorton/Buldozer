@@ -77,7 +77,7 @@ namespace buldoser
 
 		private void Unity_Loaded()
 		{
-            StopAdversting();
+            //StopAdversting();
 			SetupGeolocator();
             var InterfaceObj = UnityEngine.Object.FindObjectOfType<WINRTInterfaceHandler>();
 
