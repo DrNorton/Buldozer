@@ -1,4 +1,5 @@
-﻿using Assets.Scripts;
+﻿using System;
+using Assets.Scripts;
 using Assets.Scripts.Grid;
 using Assets.Scripts.Models;
 using UnityEngine;
@@ -16,19 +17,79 @@ public class BuldozerController : MonoBehaviour
     private SwipeGestureRecognizer _swipeGesture;
     private PinchGestureRecognizer _gesture;
 
+    private CNTouchpad MovementJoystick;
     // Use this for initialization
 	void Start () {
 	    _state=BulldozerState.Top;
-        _dpad= VCDPadBase.GetInstance("dpad");
+        MovementJoystick = GameObject.Find("CNTouchpad").GetComponent<CNTouchpad>();
+        MovementJoystick.ControllerMovedEvent += MovementJoystick_ControllerMovedEvent;
+        MovementJoystick.OnTap += MovementJoystick_OnTap;
 	}
+
+ 
+    void MovementJoystick_OnTap(Vector3 vector)
+    {
+        var rotationX = Convert.ToInt16(vector.x);
+        var rotationY = Convert.ToInt16(vector.y);
+        Debug.LogWarning(String.Format("{0}:{1}", rotationX, rotationY));
+        if (rotationX > 0)
+        {
+            GoRight();
+        }
+        if (rotationX < 0)
+        {
+            GoLeft();
+        }
+        if (rotationY > 0)
+        {
+            GoToTop();
+        }
+        if (rotationY < 0)
+        {
+            GoDown();
+        }
+    }
+
+    void MovementJoystick_FingerTouchedEvent(CNAbstractController obj)
+    {
+        
+      
+    }
+
+    void MovementJoystick_ControllerMovedEvent(Vector3 arg1, CNAbstractController arg2)
+    {
+        //if (MovementJoystick != null)
+        //{
+        //    float rotationX = MovementJoystick.GetAxis("Horizontal");
+        //    float rotationY = MovementJoystick.GetAxis("Vertical");
+        //    if (rotationX > 0)0)
+        //    {
+        //        GoRight();
+        //    }
+        //    if (rotationX < 0)
+        //    {
+        //        GoLeft();
+        //    }
+        //    if (rotationY > 0)
+        //    {
+        //        GoToTop();
+        //    }
+        //    if (rotationY < 0)
+        //    {
+        //        GoDown();
+        //    }
+        //}
+    }
+
+   
 
     private void OnEnable()
     {
         //_swipeGesture = this.GetComponent<SwipeGestureRecognizer>();
-        //_swipeGesture.OnSwipe+=BuldozerController_OnSwipe;
+        //_swipeGesture.OnSwipe += BuldozerController_OnSwipe;
         //_gesture = this.GetComponent<PinchGestureRecognizer>();
-        //_gesture.OnPinchBegin+=_gesture_OnPinchBegin;
-        //_gesture.OnPinchEnd+=_gesture_OnPinchEnd;
+        //_gesture.OnPinchBegin += _gesture_OnPinchBegin;
+        //_gesture.OnPinchEnd += _gesture_OnPinchEnd;
     }
 
     private void _gesture_OnPinchEnd(PinchGestureRecognizer source)
@@ -53,8 +114,10 @@ public class BuldozerController : MonoBehaviour
     void OnDisable()
     {
         // unregister finger gesture events
-		_swipeGesture.OnSwipe-=BuldozerController_OnSwipe;
-		
+		//_swipeGesture.OnSwipe-=BuldozerController_OnSwipe;
+
+        MovementJoystick.ControllerMovedEvent -= MovementJoystick_ControllerMovedEvent;
+        MovementJoystick.OnTap -= MovementJoystick_OnTap;
        
     }
 
@@ -163,49 +226,38 @@ public class BuldozerController : MonoBehaviour
 
 
     private int c = 0;
-    private VCDPadBase _dpad;
+  
     // Update is called once per frame
-    void FixedUpdate()
-	{
-	    
-          
-        //if (!IsTouch)
-        //{
-        //    KeyInputHandler();
-        //}
-
-        //else
-        //{
-        //    TouchInputHandler();
-        //}
-
-        //// Use the DPad to move the cube container
-
-        // try and get the dpad
+    //void Update()
+    //{
 
 
-        // if we got one, perform movement
-        if (_dpad)
-        {
+    //    if (!IsTouch)
+    //    {
+    //        KeyInputHandler();
+    //    }
 
-            if (_dpad.Left)
-                    GoLeft();
-            if (_dpad.Right)
-                 GoRight();
-            if (_dpad.Up)
-                   GoToTop();
-            if (_dpad.Down)
-            {
-                c++;
-                Debug.LogWarning(c);
-                GoDown();
-            }
-                   
-        }
+    //    else
+    //    {
+    //        TouchInputHandler();
+    //    }
+
+    //    //// Use the DPad to move the cube container
+
+    //    // try and get the dpad
+
+
+    //    // if we got one, perform movement
+     
 			
 		
 	   
-	}
+    //}
+
+    private void Update()
+    {
+       
+    }
 
     private void TouchInputHandler()
     {

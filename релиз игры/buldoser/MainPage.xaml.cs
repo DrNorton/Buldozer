@@ -16,6 +16,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
 using Windows.Foundation;
 using Windows.Devices.Geolocation;
+using Microsoft.AdMediator.Core.Events;
 using Microsoft.Phone.Tasks;
 using UnityApp = UnityPlayer.UnityApp;
 using UnityBridge = WinRTBridge.WinRTBridge;
@@ -44,7 +45,7 @@ namespace buldoser
 			{
 				_unityStartedLoading = true;
 
-				UnityApp.SetLoadedCallback(() => { Dispatcher.BeginInvoke(Unity_Loaded); });
+				UnityApp.SetLoadedCallback(Unity_Loaded);
 				
 				int physicalWidth, physicalHeight;
 				object physicalResolution;
@@ -79,10 +80,12 @@ namespace buldoser
 		{
             //StopAdversting();
 			SetupGeolocator();
-            var InterfaceObj = UnityEngine.Object.FindObjectOfType<WINRTInterfaceHandler>();
-
-            if (InterfaceObj != null)
-                InterfaceObj.SendRequestEvent += OnSendRequest;    //Event Registration for any action at game side
+		   
+		        var InterfaceObj = UnityEngine.Object.FindObjectOfType<WINRTInterfaceHandler>();
+            StopAdversting();
+		        if (InterfaceObj != null)
+		            InterfaceObj.SendRequestEvent += OnSendRequest; //Event Registration for any action at game side
+		
 		}
 
 	    private void StopAdversting()
@@ -188,5 +191,7 @@ namespace buldoser
                 UnityApp.SetupGeolocator(null, null);
             }
         }
+
+	
 	}
 }

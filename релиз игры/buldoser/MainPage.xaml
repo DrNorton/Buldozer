@@ -12,10 +12,13 @@
     Foreground="{StaticResource PhoneForegroundBrush}" Orientation="Portrait" SupportedOrientations="PortraitOrLandscape" BackKeyPress="PhoneApplicationPage_BackKeyPress" OrientationChanged="PhoneApplicationPage_OrientationChanged">
 
 
-     
-     <DrawingSurfaceBackgroundGrid x:Name="DrawingSurfaceBackground" Loaded="DrawingSurfaceBackground_Loaded">
-        <WindowsPhone8:AdMediatorControl x:Name="AdMediatorControl" HorizontalAlignment="Center"  VerticalAlignment="Bottom"  Id="AdMediator-Id-0C0974CF-F41C-45BB-91F7-7CF3P310A107"/>
+  
+    <DrawingSurfaceBackgroundGrid x:Name="DrawingSurfaceBackground" Loaded="DrawingSurfaceBackground_Loaded">
+        <WindowsPhone8:AdMediatorControl  x:Name="AdMediatorControl"   HorizontalAlignment="Center"  VerticalAlignment="Bottom"  Id="AdMediator-Id-0C0974CF-F41C-45BB-91F7-7CF3P310A107"/>
+
     </DrawingSurfaceBackgroundGrid>
+
+ 
 
 
 
