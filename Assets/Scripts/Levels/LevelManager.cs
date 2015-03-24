@@ -38,6 +38,7 @@ namespace Assets.Scripts.Levels
         void Start()
         {
             _settingsStore = new Settings();
+            
             _currentLevelIndex = _settingsStore.LevelNumber;
             _levels = new List<Level>();
             LoadLevelsInArray();
